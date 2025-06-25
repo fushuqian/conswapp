@@ -22,15 +22,15 @@ export class UserSettings {
         key: "deviceMode", 
         def: 100, 
         fields: [
-            { label: "Xbox OG",                  value: 1 },
-            { label: "Xbox OG: Steel Battalion", value: 2 },
-            { label: "Xbox OG: XRemote",         value: 3 },
+            { label: "XBOX 初代",                  value: 1 },
+            { label: "XBOX 初代: 铁骑控制器",      value: 2 },
+            { label: "XBOX 初代: 遥控器",         value: 3 },
             { label: "XInput",                   value: 4 },
             { label: "PS3",                      value: 5 },
             { label: "DInput",                   value: 6 },
             { label: "PS Classic",               value: 7 },
             { label: "Switch",                   value: 8 },
-            { label: "WebApp",                   value: 100 },
+            { label: "网页配置",                   value: 100 },
         ]
     });
 
@@ -40,7 +40,7 @@ export class UserSettings {
         fields: [
             { label: "DInput", value: 6 },
             { label: "Switch", value: 8 },
-            { label: "WebApp", value: 100 },
+            { label: "网页配置", value: 100 },
         ]
     });
 
@@ -48,13 +48,13 @@ export class UserSettings {
         key: "deviceMode",
         def: 100,
         fields: [
-            { label: "Xbox OG",                  value: 1 },
-            { label: "Xbox OG: Steel Battalion", value: 2 },
-            { label: "Xbox OG: XRemote",         value: 3 },
+            { label: "XBOX 初代",                  value: 1 },
+            { label: "XBOX 初代: 铁骑控制器", value: 2 },
+            { label: "XBOX 初代: X遥控器",         value: 3 },
             { label: "XInput",                   value: 4 },
             { label: "PS3",                      value: 5 },
             { label: "PS Classic",               value: 7 },
-            { label: "WebApp",                   value: 100 },
+            { label: "网页配置",                   value: 100 },
         ]
     });
 
@@ -62,14 +62,14 @@ export class UserSettings {
         key: "profile.profileId", 
         def: 1, 
         fields: [
-            { label: "Profile 1", value: 1 },
-            { label: "Profile 2", value: 2 },
-            { label: "Profile 3", value: 3 },
-            { label: "Profile 4", value: 4 },
-            { label: "Profile 5", value: 5 },
-            { label: "Profile 6", value: 6 },
-            { label: "Profile 7", value: 7 },
-            { label: "Profile 8", value: 8 },
+            { label: "配置 1", value: 1 },
+            { label: "配置 2", value: 2 },
+            { label: "配置 3", value: 3 },
+            { label: "配置 4", value: 4 },
+            { label: "配置 5", value: 5 },
+            { label: "配置 6", value: 6 },
+            { label: "配置 7", value: 7 },
+            { label: "配置 8", value: 8 },
         ]
     });
 
@@ -79,27 +79,27 @@ export class UserSettings {
         { type: "map", key: "joystickSettings-right", size: 55, map: JoystickSettings.SETTINGS },
         { type: "map", key: "triggerSettings-left",  size: 20, map: TriggerSettings.SETTINGS },
         { type: "map", key: "triggerSettings-right", size: 20, map: TriggerSettings.SETTINGS },
-        { type: "int", key: "dpadUp",            size: 1, def: 0x01,   label: "Up"    },
-        { type: "int", key: "dpadDown",          size: 1, def: 0x02,   label: "Down"  },
-        { type: "int", key: "dpadLeft",          size: 1, def: 0x04,   label: "Left"  },
-        { type: "int", key: "dpadRight",         size: 1, def: 0x08,   label: "Right" },
+        { type: "int", key: "dpadUp",            size: 1, def: 0x01,   label: "上"    },
+        { type: "int", key: "dpadDown",          size: 1, def: 0x02,   label: "下"  },
+        { type: "int", key: "dpadLeft",          size: 1, def: 0x04,   label: "左"  },
+        { type: "int", key: "dpadRight",         size: 1, def: 0x08,   label: "右" },
         { type: "int", key: "buttonA",           size: 2, def: 0x0001, label: "A"     },
         { type: "int", key: "buttonB",           size: 2, def: 0x0002, label: "B"     },
         { type: "int", key: "buttonX",           size: 2, def: 0x0004, label: "X"     },
         { type: "int", key: "buttonY",           size: 2, def: 0x0008, label: "Y"     },
         { type: "int", key: "buttonL3",          size: 2, def: 0x0010, label: "L3"    },
         { type: "int", key: "buttonR3",          size: 2, def: 0x0020, label: "R3"    },
-        { type: "int", key: "buttonBack",        size: 2, def: 0x0040, label: "Back"  },
+        { type: "int", key: "buttonBack",        size: 2, def: 0x0040, label: "Back/SELECT"  },
         { type: "int", key: "buttonStart",       size: 2, def: 0x0080, label: "Start" },
         { type: "int", key: "buttonLb",          size: 2, def: 0x0100, label: "LB"    },
         { type: "int", key: "buttonRb",          size: 2, def: 0x0200, label: "RB"    },
-        { type: "int", key: "buttonSys",         size: 2, def: 0x0400, label: "Sys"   },
-        { type: "int", key: "buttonMisc",        size: 2, def: 0x0800, label: "Misc"  },
+        { type: "int", key: "buttonSys",         size: 2, def: 0x0400, label: "系统"   },
+        { type: "int", key: "buttonMisc",        size: 2, def: 0x0800, label: "其他"  },
         { type: "bool",key: "analogEnabled",     size: 1, def: true },
-        { type: "int", key: "analogOffUp",       size: 1, def: 0, label: "Up"    },
-        { type: "int", key: "analogOffDown",     size: 1, def: 1, label: "Down"  },
-        { type: "int", key: "analogOffLeft",     size: 1, def: 2, label: "Left"  },
-        { type: "int", key: "analogOffRight",    size: 1, def: 3, label: "Right" },
+        { type: "int", key: "analogOffUp",       size: 1, def: 0, label: "上"    },
+        { type: "int", key: "analogOffDown",     size: 1, def: 1, label: "下"  },
+        { type: "int", key: "analogOffLeft",     size: 1, def: 2, label: "左"  },
+        { type: "int", key: "analogOffRight",    size: 1, def: 3, label: "右" },
         { type: "int", key: "analogOffA",        size: 1, def: 4, label: "A"     },
         { type: "int", key: "analogOffB",        size: 1, def: 5, label: "B"     },
         { type: "int", key: "analogOffX",        size: 1, def: 6, label: "X"     },
