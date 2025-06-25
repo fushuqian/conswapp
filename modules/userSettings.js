@@ -11,10 +11,10 @@ export class UserSettings {
         key: "playerIdx", 
         def: 0, 
         fields: [
-            { label: "Player 1", value: 0 },
-            { label: "Player 2", value: 1 },
-            { label: "Player 3", value: 2 },
-            { label: "Player 4", value: 3 },
+            { label: "玩家 1", value: 0 },
+            { label: "玩家 2", value: 1 },
+            { label: "玩家 3", value: 2 },
+            { label: "玩家 4", value: 3 },
         ]
     });
 
