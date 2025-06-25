@@ -1,10 +1,10 @@
 export class TriggerSettings {
     static SETTINGS = Object.freeze([
-        { type: "float", key: "dzInner",     min: 0.0, max: 0.5, def: 0.0, label: "Deadzone Inner", tip: "" },
-        { type: "float", key: "dzOuter",     min: 0.5, max: 1.0, def: 1.0, label: "Deadzone Outer", tip: "" },
-        { type: "float", key: "antiDzInner", min: 0.0, max: 0.5, def: 0.0, label: "Anti-Deadzone Inner", tip: "" },
-        { type: "float", key: "antiDzOuter", min: 0.5, max: 1.0, def: 1.0, label: "Anti-Deadzone Outer", tip: "" },
-        { type: "float", key: 'curve',       min: 0.3, max: 3.0, def: 1.0, label: "Curve", tip: "" },
+        { type: "float", key: "dzInner",     min: 0.0, max: 0.5, def: 0.0, label: "死区 内部", tip: "" },
+        { type: "float", key: "dzOuter",     min: 0.5, max: 1.0, def: 1.0, label: "死区 外部", tip: "" },
+        { type: "float", key: "antiDzInner", min: 0.0, max: 0.5, def: 0.0, label: "反死区 内部", tip: "" },
+        { type: "float", key: "antiDzOuter", min: 0.5, max: 1.0, def: 1.0, label: "反死区 外部", tip: "" },
+        { type: "float", key: 'curve',       min: 0.3, max: 3.0, def: 1.0, label: "曲线", tip: "" },
     ]);
 
     constructor() {
@@ -22,7 +22,7 @@ export class TriggerSettings {
         if (setting !== undefined) {
             return setting.def;
         }
-        console.warn(`Setting not found: ${key}`);
+        console.warn(`未找到设置: ${key}`);
         return null;
     }
 }
