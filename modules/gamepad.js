@@ -29,9 +29,9 @@ export class Gamepad {
 
     setReportFromBytes(data) {
         if (!(data instanceof Uint8Array)) {
-            return console.warn("Invalid data type.");
+            return console.warn("无效的数据类型。");
         } else if (data.length !== 23 && data.length !== 13) {
-            return console.warn("Invalid data length: expected 23 bytes, actual:", data.length);
+            return console.warn("数据长度无效：预期 23 字节，实际为：", data.length);
         }
     
         const dataView = new DataView(data.buffer);
