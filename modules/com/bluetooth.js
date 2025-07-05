@@ -46,8 +46,8 @@ class BTManager {
     async init() {
         const options = {
             filters: [
-                { name: "OGX-Wireless" },
-                { name: "OGX-Wireless-Lite" },
+                { name: "OGX-无线转换器" },
+                { name: "OGX-无线转换器 简化版" },
                 { name: "OGX-Mini" }
             ],
             acceptAllDevices: false,
@@ -61,7 +61,7 @@ class BTManager {
             });
             return true;
         }
-        console.warn('Failed to connect to Bluetooth device');
+        console.warn('无法连接到蓝牙设备');
         this.#interface.disconnect();
         return false;
     }
@@ -149,7 +149,7 @@ class BTManager {
     
                 success = await this.#tryWrite(BTManager.UUID.PROFILE, buffer);
                 if (!success) {
-                    console.warn('Failed to write profile chunk');
+                    console.warn('写入配置文件块失败');
                     return false;
                 }
                 profileOffset += chunkLen;
@@ -212,7 +212,7 @@ class BTManager {
     async #getGamepad() {
         const buffer = await this.#interface.read(BTManager.UUID.GAMEPAD);
         if (!buffer || buffer.length === 0) {
-            console.warn('Failed to read gamepad data');
+            console.warn('读取游戏手柄数据失败');
             return null;
         }
 
@@ -228,7 +228,7 @@ class BTManager {
                 new Uint8Array(Object.values(setup))
             );
             if (!success) {
-                console.warn('Failed to write setup packet');
+                console.warn('写入设置数据包失败');
                 return false;
             }
 
@@ -238,7 +238,7 @@ class BTManager {
             while (offset < UserSettings.PROFILE_LENGTH) {
                 const chunk = await this.#tryRead(BTManager.UUID.PROFILE);
                 if (!chunk || chunk.length === 0) {
-                    console.warn('Failed to read profile chunk');
+                    console.warn('读取配置文件块失败');
                     return false;
                 }
 
@@ -307,7 +307,7 @@ export const BT = {
             UI.connectButtonsEnabled(false);
 
             if (!(await btManager.init())) {
-                throw new Error('Failed to connect to Bluetooth device');
+                throw new Error('未能连接到蓝牙设备');
             }
 
             await btManager.getSetup(userSettings);
@@ -315,7 +315,7 @@ export const BT = {
             
             UI.updateAll(userSettings);
             UI.toggleConnected(true);
-            UI.setSubheaderText("Settings");
+            UI.setSubheaderText("设置");
 
             UI.addCallbackLoadProfile(async () => {
                 await btManager.getProfileById(userSettings);
