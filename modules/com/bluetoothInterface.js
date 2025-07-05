@@ -6,7 +6,7 @@ export class BTInterface {
 
     async connect(uuid, options) {
         if (!navigator.bluetooth) {
-            console.error("Web Bluetooth API is not available, try using a different browser.");
+            console.error("Web 蓝牙 API 不可用，请尝试使用其他浏览器。");
             return false;
         }
 
@@ -20,7 +20,7 @@ export class BTInterface {
             this.#service = await this.#server.getPrimaryService(uuid);
             this.#connected = true;
         } catch (error) {
-            console.error('Bluetooth connection failed:', error);
+            console.error('蓝牙连接失败：', error);
             this.disconnect();
         }
         return this.#connected;
@@ -48,7 +48,7 @@ export class BTInterface {
     
     async write(uuid, data) {
         if (!this.isConnected()) {
-            console.error('Bluetooth device not connected.');
+            console.error('蓝牙设备未连接。');
             return;
         }
         try {
@@ -56,14 +56,14 @@ export class BTInterface {
             await characteristic.writeValue(data);
             return true;
         } catch (error) {
-            console.error('Failed to write to Bluetooth device:', error);
+            console.error('写入蓝牙设备失败：', error);
         }
         return false;
     }
 
     async read(uuid) {
         if (!this.isConnected()) {
-            console.error('Bluetooth device not connected.');
+            console.error('蓝牙设备未连接。');
             return null;
         }
         try {
@@ -73,7 +73,7 @@ export class BTInterface {
                 return new Uint8Array(value.buffer);
             }
         } catch (error) {
-            console.error('Failed to read from Bluetooth device:', error);
+            console.error('从蓝牙设备读取失败：', error);
         }
         return null;
     }
