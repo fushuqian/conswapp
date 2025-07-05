@@ -69,7 +69,7 @@ export class UserSettings {
             { label: "配置 5", value: 5 },
             { label: "配置 6", value: 6 },
             { label: "配置 7", value: 7 },
-            { label: "配置 8", value: 8 },
+            { label: "SNK-ASP", value: 8 },
         ]
     });
 
@@ -152,9 +152,9 @@ export class UserSettings {
 
     setProfileFromBytes(buffer) {
         if (!(buffer instanceof Uint8Array)) {
-            throw new Error("Invalid buffer type.");
+            throw new Error("无效的缓冲区类型。");
         } else if (buffer.length !== UserSettings.PROFILE_LENGTH) {
-            throw new Error(`Invalid buffer length: expected ${UserSettings.PROFILE_LENGTH} bytes`);
+            throw new Error(`无效的缓冲区长度：预期为 ${UserSettings.PROFILE_LENGTH} bytes`);
         }
     
         let offset = 0;
@@ -188,16 +188,16 @@ export class UserSettings {
                     offset += 2;
 
                 } else {
-                    throw new Error(`Unsupported size for key: ${key}`);
+                    throw new Error(`键的大小不支持： ${key}`);
                 }
 
             } else {
-                throw new Error(`Unsupported size for key: ${key}`);
+                throw new Error(`键的大小不支持： ${key}`);
             }
         }
 
         if (offset !== UserSettings.PROFILE_LENGTH) {
-            throw new Error(`Invalid profile size: expected ${UserSettings.PROFILE_LENGTH}, got ${offset}`);
+            throw new Error(`无效的配置文件大小：预期 ${UserSettings.PROFILE_LENGTH}, 实际 ${offset}`);
         }
     }   
 
@@ -225,7 +225,7 @@ export class UserSettings {
                 } else if (size === 2) {
                     data.push(...this.#intToUint16(value)); // uint16_t
                 } else {
-                    throw new Error(`Unsupported size for key: ${key}`);
+                    throw new Error(`键的大小不支持： ${key}`);
                 }
             }
         }
@@ -233,7 +233,7 @@ export class UserSettings {
         const bytes = new Uint8Array(data);
     
         if (bytes.length !== UserSettings.PROFILE_LENGTH) {
-            throw new Error(`Invalid profile size: expected ${UserSettings.PROFILE_LENGTH}, got ${bytes.length}`);
+            throw new Error(`配置文件大小无效：预期 ${UserSettings.PROFILE_LENGTH}, 实际 ${bytes.length}`);
         }
     
         return bytes;
@@ -293,7 +293,7 @@ export class UserSettings {
 
     #fix16ToFloat(bytes) {
         if (!(bytes instanceof Uint8Array) || bytes.length !== 4) {
-            throw new Error("fix16_t must be a 4-byte Uint8Array.");
+            throw new Error("fix16_t 必须是一个 4 字节的 Uint8Array。");
         }
         const int32 = new Int32Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 4);
         const rawValue = int32[0];
