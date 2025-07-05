@@ -32,7 +32,7 @@ async function getRepoContents(owner, repo, path = "", branch = "master") {
     try {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Error fetching repo content: ${response.status} ${response.statusText}`);
+            throw new Error(`获取仓库内容时出错： ${response.status} ${response.statusText}`);
         }
         const data = await response.json();;
         return data;
@@ -57,7 +57,7 @@ async function getFwFiles() {
     };
 
     if (!files.uf2 || !files.bootloader || !files.partitionTable || !files.firmware) {
-        console.error("Error: Firmware files not found.");
+        console.error("错误：未找到固件文件。");
         return null;
     }
 
@@ -72,29 +72,29 @@ async function copyUf2ToPico(dirHandle, uf2File) {
     try {
         const response = await fetch(uf2File.path);
         if (!response.ok) {
-            console.error(`Error fetching UF2: ${response.status} ${response.statusText}`);
+            console.error(`获取UF2时出错： ${response.status} ${response.statusText}`);
             return false;
         }
         const uf2Content = await response.blob();
         const fileHandle = await dirHandle.getFileHandle(uf2File.name, { create: true });
         const writable = await fileHandle.createWritable();
 
-        terminal.writeLine("Copying UF2 file...");
+        terminal.writeLine("正在复制UF2文件...");
 
         await writable.write(uf2Content);
         await writable.close();
 
-        terminal.writeLine("UF2 file copied.");
+        terminal.writeLine("UF2文件已复制。");
 
         return true;
     } catch (error) {
-        console.error("Error: " + error.message);
+        console.error("错误: " + error.message);
     }
     return false;
 } 
 
 async function programEsp32(files) {
-    terminal.writeLine("Requesting port...");
+    terminal.writeLine("请求端口...");
 
     let device = await SERIAL_LIB.requestPort({});
     let transport = new Transport(device, true);
@@ -106,18 +106,18 @@ async function programEsp32(files) {
         debugLogging: false,
     }
 
-    terminal.writeLine("Connecting to ESP32...");
+    terminal.writeLine("正在连接到 ESP32...");
 
     let espLoader = new ESPLoader(loaderOptions);
     let reset_mode = "no_reset";
     let chip = await espLoader.main(reset_mode)
 
-    terminal.writeLine("Connected to ESP32.");
+    terminal.writeLine("已连接到 ESP32。");
 
     const fetchBinaryString = async (url) => {
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`Failed to fetch firmware file from ${url}: ${response.status}`);
+            throw new Error(`未能从以下位置获取固件文件 ${url}: ${response.status}`);
         }
         const arrayBuffer = await response.arrayBuffer();
         const uint8Array = new Uint8Array(arrayBuffer);
@@ -132,10 +132,10 @@ async function programEsp32(files) {
     const partitionTableData = await fetchBinaryString(files.partitionTable.download_url);
     const firmwareData = await fetchBinaryString(files.firmware.download_url);
     
-    terminal.writeLine("Firmware files found:")
-    terminal.writeLine(" - Bootloader: " + files.bootloader.name);
-    terminal.writeLine(" - Partition Table: " + files.partitionTable.name);
-    terminal.writeLine(" - Firmware: " + files.firmware.name);
+    terminal.writeLine("找到的固件文件：")
+    terminal.writeLine(" - 加载器: " + files.bootloader.name);
+    terminal.writeLine(" - 分区表: " + files.partitionTable.name);
+    terminal.writeLine(" - 固件: " + files.firmware.name);
 
     const flashOptions = {
         fileArray: [
@@ -152,7 +152,7 @@ async function programEsp32(files) {
         calculateMD5Hash: (image) => CryptoJS.MD5(CryptoJS.enc.Latin1.parse(image)),
     };
 
-    terminal.writeLine("\nFlashing firmware...");
+    terminal.writeLine("\n正在刷写固件...");
 
     await espLoader.writeFlash(flashOptions);
 
@@ -160,19 +160,19 @@ async function programEsp32(files) {
     const encoder = new TextEncoder();
     const flagBytes = encoder.encode(completeFlag);
 
-    terminal.writeLine("Sending programming complete flag: " + completeFlag);
+    terminal.writeLine("发送编程完成标志: " + completeFlag);
 
     try {
         await transport.write(flagBytes);
     } catch (error) {
-        console.error("Error: " + error.message);
+        console.error("错误: " + error.message);
         return false;
     }
 
     await transport.disconnect();
     await transport.waitForUnlock();
 
-    terminal.writeLine("Flashing complete.");
+    terminal.writeLine("刷写完成.");
     return true;
 }
 
@@ -181,7 +181,7 @@ export const UsbEsp32 = {
     async connect() {
         UIProgram.enableProgramEsp32Button(false);
         UIProgram.toggleConnected(true);
-        UI.setSubheaderText("Update");
+        UI.setSubheaderText("更新");
 
         try {
             let dirHandle = null;
@@ -191,7 +191,7 @@ export const UsbEsp32 = {
                 UIProgram.enableProgramPicoButton(false);
                 try {
                     terminal.clean();
-                    terminal.writeLine("Select the drive named RPI-RP2");
+                    terminal.writeLine("选择名为RPI-RP2的磁盘");
 
                     dirHandle = await window.showDirectoryPicker();
                     if (!dirHandle) {
@@ -200,16 +200,16 @@ export const UsbEsp32 = {
 
                     fwFiles = await getFwFiles();
                     if (!fwFiles) {
-                        throw new Error("Error: Firmware files not found.");
+                        throw new Error("错误：没有找到固件");
                     }
 
                     if (!await copyUf2ToPico(dirHandle, fwFiles.uf2)) {
-                        throw new Error("Error: UF2 not copied to Pico.");
+                        throw new Error("错误：UF2没有复制到PICO。");
                     }
 
                     UIProgram.enableProgramEsp32Button(true);
 
-                    terminal.writeLine("Click 'Program Part 2' to finish programming you adapter.");
+                    terminal.writeLine("点击 “编程第 2 步” 完成适配器编程。");
 
                 } catch (error) {
                     console.warn("Error: " + error.message);
@@ -220,19 +220,19 @@ export const UsbEsp32 = {
             UIProgram.addProgramEsp32Callback(async () => {
                 UIProgram.enableProgramEsp32Button(false);
                 if (!fwFiles) {
-                    throw new Error("Error: Firmware files not found.");
+                    throw new Error("错误：未找到固件文件。");
                 }
 
                 try {
                     await programEsp32(fwFiles);
                 } catch (error) {
-                    console.warn("Error: " + error.message);
+                    console.warn("错误: " + error.message);
                     UIProgram.enableProgramEsp32Button(true);
                 }
             });
 
         } catch (error) {
-            console.error("Error: " + error.message);
+            console.error("错误: " + error.message);
         }
     }
 };
